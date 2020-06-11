@@ -5,6 +5,18 @@ const app = express()
 
 app.use(express.json())
 
+app.get('/users', (req, res) => {
+    fs.readFile('accounts.json', 'utf8', (err, data) => {
+        if(!err) {
+            let json = JSON.parse(data)
+            delete json.nextId
+            res.json(json)
+        } else {
+            res.json({message: 'erro ao ler dados'})
+        }
+    })
+})
+
 app.post('/users', (req, res) => {
     let user = req.body
 
